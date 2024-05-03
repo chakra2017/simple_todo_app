@@ -1,9 +1,7 @@
 const mongoose = require("mongoose");
 
 // Connect to MongoDB
-mongoose.connect(
-  "mongodb+srv://admin:La3NE6jIvOqcc0yY@cluster0.oo8wkd1.mongodb.net/todos"
-);
+mongoose.connect();
 
 const TodoSchema = new mongoose.Schema({
   // Schema definition here

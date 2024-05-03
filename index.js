@@ -1,12 +1,18 @@
 const express = require("express");
 const { createTodo, updateTodo } = require("./types");
+const { todo } = require("./db");
 
 const app = express();
 
 app.use(express.json());
-app.get("/todos", function (req, res) {});
+app.get("/todos", async function (req, res) {
+  const todos = await todo.find({});
+  res.json({
+    msg: todos,
+  });
+});
 
-app.post("/todo", function (req, res) {
+app.post("/todo", async function (req, res) {
   const createPayload = req.body;
   const parsePayload = createTodo.safeParse(createPayload);
   if (!parsePayload.success) {
@@ -15,6 +21,15 @@ app.post("/todo", function (req, res) {
     });
     return;
   }
+
+  await todo.create({
+    title: createPayload.title,
+    description: createPayload.description,
+  });
+
+  res.json({
+    msg: "todo created",
+  });
 });
 
 app.post("/completed", function (req, res) {
